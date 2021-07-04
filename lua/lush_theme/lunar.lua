@@ -83,7 +83,9 @@ local c = {
     indentlinehighlight = "#767A8B",
 
     git = {delete = "#c14a4a", add = "#81B88B", change = "#4FC1FF"},
-    gitSigns = {delete = "#94151B", add = "#587C0C", change = "#0C7D9D"}
+    gitSigns = {delete = "#94151B", add = "#587C0C", change = "#0C7D9D"},
+    -- lightspeed = {secondary = "#00C7DF", primary = "#eF5F70"},
+    lightspeed = {secondary = "#9ADDFF", primary = "#F00077"}
 }
 
 local theme = lush(function()
@@ -127,6 +129,9 @@ local theme = lush(function()
         LineNr {fg = c.gutter_fg_grey}, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
         CursorLineNr {fg = c.white, gui = "bold"}, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
         MatchParen {fg = c.search_blue, gui = "underline"}, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        MatchWord {gui = "underline"},
+        MatchWordCur {gui = "underline"},
+        MatchParenCur {fg = c.search_blue, gui = "underline"},
         -- ModeMsg {fg = colors.fg, gui = "bold"}, -- 'showmode' message (e.g., "-- INSERT -- ")
         -- MsgArea {fg = colors.fg}, -- Area for messages and cmdline
         -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -260,7 +265,8 @@ local theme = lush(function()
         TSInclude {fg = c.blue}, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
         TSKeyword {fg = c.blue}, -- For keywords that don't fall in previous categories.
         TSKeywordFunction {fg = c.grey_blue}, -- For keywords used to define a fuction.
-        TSKeywordOperator {fg = c.blue}, TSLabel {fg = c.light_blue}, -- For labels: `label:` in C and `:label:` in Lua.
+        TSKeywordOperator {fg = c.blue}, --
+        TSLabel {fg = c.light_blue}, -- For labels: `label:` in C and `:label:` in Lua.
         TSMethod {fg = c.yellow}, -- For method calls and definitions.
         TSNamespace {fg = c.light_blue}, -- For identifiers referring to modules and namespaces.
         -- TSNone               { };    -- TODO: docs
@@ -282,30 +288,41 @@ local theme = lush(function()
         TSVariable {fg = c.white}, -- Any variable name that does not have another highlight.
         TSVariableBuiltin {fg = c.white}, -- Variable names that are defined by the languages, like `this` or `self`.
 
-        TSStructure {fg = c.yellow}, TSTag {fg = c.blue}, -- Tags like html tag names.
+        TSStructure {fg = c.yellow}, --
+        TSTag {fg = c.blue}, -- Tags like html tag names.
         TSTagDelimiter {fg = c.menu_grey}, -- Tag delimiter like `<` `>` `/`
         TSText {fg = c.fg}, -- For strings considered text in a markup language.
-        TSStrong {fg = c.yellow}, TSEmphasis {fg = c.purple}, -- For text to be represented with emphasis.
+        TSStrong {fg = c.yellow}, --
+        TSEmphasis {fg = c.purple}, -- For text to be represented with emphasis.
         TSUnderline {fg = c.red}, -- For text to be represented with an underline.
         -- TSStrike {fg = colors.yellow}, -- For strikethrough text.
         TSTitle {fg = c.fg}, -- Text that is part of a title.
         TSLiteral {fg = c.grey}, -- Literal text.
         TSURI {gui = "underline"}, -- Any URI like a link or email.
-        TSQueryLinterError {fg = "warning_orange"}, -- START which-key --
-        WhichKey {fg = c.purple}, WhichKeySeperator {fg = c.green},
-        WhichKeyGroup {fg = c.vivid_blue}, WhichKeyDesc {fg = c.blue},
-        WhichKeyFloat {bg = c.bg}, -- WhichKeyValue {fg = colors.bg2},
+        TSQueryLinterError {fg = "warning_orange"}, --
+
+        -- START which-key --
+        WhichKey {fg = c.purple}, 
+        WhichKeySeperator {fg = c.green},
+        WhichKeyGroup {fg = c.vivid_blue}, --
+        WhichKeyDesc {fg = c.blue},
+        WhichKeyFloat {bg = c.bg}, 
+        -- WhichKeyValue {fg = colors.bg2}, --
         -- END which-key --
+
         -- START nvimtree --
         NvimTreeNormal {fg = c.fg},
         NvimTreeRootFolder {fg = c.fg, gui = "bold"},
-        NvimTreeFolderName {fg = c.blue}, NvimTreeFolderIcon {fg = c.blue},
+        NvimTreeFolderName {fg = c.blue}, 
+        NvimTreeFolderIcon {fg = c.blue},
         NvimTreeEmptyFolderName {fg = c.blue},
         NvimTreeOpenedFolderName {fg = c.vivid_blue},
-        NvimTreeImageFile {fg = c.purple}, NvimTreeExecFile {fg = c.executable},
+        NvimTreeImageFile {fg = c.purple}, 
+        NvimTreeExecFile {fg = c.executable},
         NvimTreeSpecialFile {fg = c.info_yellow, gui = "underline"},
-        NvimTreeSymlink {fg = c.symlink}, NvimTreeGitNew {fg = c.git.add},
-        NvimTreeGitDirty {fg = c.git.change},
+        NvimTreeSymlink {fg = c.symlink}, 
+        NvimTreeGitNew {fg = c.git.add},
+        NvimTreeGitDirty {fg = c.git_green},
         NvimTreeGitDeleted {fg = c.git.delete},
         NvimTreeGitStaged {fg = c.git_green},
         NvimTreeGitMerge {fg = c.git_green},
@@ -324,14 +341,15 @@ local theme = lush(function()
         DashboardFooter {fg = c.light_blue, gui = "italic"}, -- END dashboard
         -- START hop
         HopNextKey {fg = c.error_red, gui = "bold"},
-        HopUnmatched {fg = c.vertsplit}, -- END hop
+        HopUnmatched {fg = c.vertsplit}, --
+        -- END hop
         -- START easymotion
         EasyMotionTarget {fg = c.error_red, gui = "bold"},
         EasyMotionTarget2First {fg = c.error_red, gui = "bold"},
         EasyMotionTarget2Second {fg = c.error_red, gui = "bold"},
-        -- EasyMotionShade {fg = colors.bg3}, 
+        EasyMotionShade {fg = c.vertsplit}, --
         -- END easymotion
-
+        --
         -- START gitsigns
         GitSignsAdd {fg = c.gitSigns.add}, -- diff mode: Added line |diff.txt|
         GitSignsChange {fg = c.gitSigns.change}, -- diff mode: Changed line |diff.txt|
@@ -346,29 +364,122 @@ local theme = lush(function()
 
         --  START neogit
         NeogitBranch {fg = c.blue}, NeogitRemote {fg = c.blue},
-        NeogitHunkHeader {bg = c.bg_inactive, fg = c.fg},
+        NeogitHunkHeader {bg = c.bg_inactive, fg = c.purple},
         NeogitHunkHeaderHighlight {bg = c.bg_inactive, fg = c.purple},
         NeogitDiffContextHighlight {bg = c.cursor_grey},
         NeogitDiffDeleteHighlight {fg = c.git.delete, bg = c.cursor_grey},
-        NeogitDiffAddHighlight {fg = c.git.add, bg = c.cursor_grey}
+        NeogitDiffAddHighlight {fg = c.git.add, bg = c.cursor_grey},
         --  END neogit
 
+        --  START quickscope 
+        QuickScopePrimary {fg = "#00C7DF", gui = "underline"},
+        QuickScopeSecondary {fg = "#eF5F70", gui = "underline"},
+        --  END quickscope 
+
         --  START lightspeed.nvim
-        --  LightspeedLabel
-        --  LightspeedLabelOverlapped
-        --  LightspeedLabelDistant
-        --  LightspeedLabelDistantOverlapped
-        --  LightspeedShortcut
-        --  LightspeedShortcutOverlapped
-        --  LightspeedMaskedChar
-        --  LightspeedGreyWash
-        --  LightspeedUnlabeledMatch
-        --  LightspeedOneCharMatch
-        --  LightspeedUniqueChar
-        --  LightspeedPendingOpArea
-        --  LightspeedPendingChangeOpArea
+        -- LightspeedCursor {fg = c.black, bg = c.yellow},
+        LightspeedLabel {fg = c.lightspeed.primary, gui = "bold, underline"},
+        LightspeedLabelOverlapped {fg = c.lightspeed.primary, gui = "underline"},
+        LightspeedLabelDistant {fg = c.lightspeed.secondary, gui = "bold, underline"},
+        LightspeedLabelDistantOverlapped {fg = c.lightspeed.secondary, gui = "underline"},
+        LightspeedShortcut {
+            fg = c.white,
+            bg = c.lightspeed.primary,
+            gui = "bold, underline"
+        },
+        LightspeedShortcutOverlapped {fg = c.white, bg = c.lightspeed.primary, gui = "bold, underline"},
+        LightspeedMaskedChar {fg = c.red},
+        LightspeedGreyWash {fg = c.line_grey},
+        LightspeedUnlabeledMatch {fg = c.white, gui = "bold"},
+        LightspeedOneCharMatch {fg = c.white, bg = c.lightspeed.primary, gui = "bold"},
+        LightspeedUniqueChar {fg = c.white, gui = "bold"},
+        LightspeedPendingOpArea {fg = c.white, bg = c.lightspeed.primary},
+        LightspeedPendingChangeOpArea {fg = c.lightspeed.primary, gui = "italic, strikethrough"},
         --  END lightspeed.nvim
 
+        --  START buffer
+        BufferCurrent {fg = c.fg, bg = c.bg},
+        BufferCurrentIndex {fg = c.blue, bg = c.bg},
+        BufferCurrentMod {fg = c.fg, bg = c.bg},
+        BufferCurrentSign {fg = c.blue, bg = c.bg},
+        BufferCurrentTarget {fg = c.red, bg = c.bg, gui = "bold"},
+
+        BufferVisible {fg = c.fg, bg = c.bg},
+        BufferVisibleIndex {fg = c.fg, bg = c.bg},
+        BufferVisibleMod {fg = c.fg, bg = c.bg},
+        BufferVisibleSign {fg = c.fg, bg = c.bg},
+        BufferVisibleTarget {fg = c.red, bg = c.bg, gui = "bold"},
+
+        BufferInactive {fg = c.gutter_fg_grey, bg = c.bg_inactive},
+        BufferInactiveIndex {fg = c.gutter_fg_grey, bg = c.bg_inactive},
+        BufferInactiveMod {fg = c.gutter_fg_grey, bg = c.bg_inactive},
+        BufferInactiveSign {fg = c.gutter_fg_grey, bg = c.bg_inactive},
+        BufferInactiveTarget {fg = c.red, bg = c.bg_inactive, gui = "bold"}, --
+        
+        -- BufferTabpages: "blue bg_inactive b",
+        -- BufferTabpageFill: "gutter_fg_grey bg_inactive",
+        --  END buffer
+
+        -- START html (keep consistent with markdown, below)
+        htmlArg {fg = c.dark_yellow},
+        htmlBold {fg = c.dark_yellow, gui = "bold"},
+        htmlEndTag {fg = c.white},
+        htmlH1 {fg = c.blue},
+        htmlH2 {fg = c.blue},
+        htmlH3 {fg = c.blue},
+        htmlH4 {fg = c.blue},
+        htmlH5 {fg = c.blue},
+        htmlH6 {fg = c.blue},
+        htmlItalic {fg = c.purple, gui = "italic"},
+        htmlLink {fg = c.cyan, gui = "underline"},
+        htmlSpecialChar {fg = c.dark_yellow},
+        htmlSpecialTagName {fg = c.blue},
+        htmlTag {fg = c.white},
+        htmlTagN {fg = c.blue},
+        htmlTagName {fg = c.blue},
+        htmlTitle {fg = c.white},
+        -- END html (keep consistent with markdown, below)
+
+        -- START markdown (keep consistent with HTML, above)
+        markdownBlockquote {fg = c.line_grey},
+        markdownBold {fg = c.dark_yellow, gui = "bold"},
+        markdownCode {fg = c.green},
+        markdownCodeBlock {fg = c.green},
+        markdownCodeDelimiter {fg = c.green},
+        markdownH1 {fg = c.blue},
+        markdownH2 {fg = c.blue},
+        markdownH3 {fg = c.blue},
+        markdownH4 {fg = c.blue},
+        markdownH5 {fg = c.blue},
+        markdownH6 {fg = c.blue},
+        markdownHeadingDelimiter {fg = c.red},
+        markdownHeadingRule {fg = c.line_grey},
+        markdownId {fg = c.purple},
+        markdownIdDeclaration {fg = c.blue},
+        markdownIdDelimiter {fg = c.purple},
+        markdownItalic {fg = c.purple, gui = "italic"},
+        markdownLinkDelimiter {fg = c.purple},
+        markdownLinkText {fg = c.blue},
+        markdownListMarker {fg = c.red},
+        markdownOrderedListMarker {fg = c.red},
+        markdownRule {fg = c.line_grey},
+        markdownUrl {fg = c.cyan, gui = "underline"},
+        -- END markdown (keep consistent with HTML, above)
+
+        -- START vimwiki 
+        VimwikiHeader1 {fg = c.orange, gui = "bold"},
+        VimwikiHeader2 {fg = c.green, gui = "bold"},
+        VimwikiHeader3 {fg = c.blue, gui = "bold"},
+        VimwikiHeader4 {fg = c.cyan, gui = "bold"},
+        VimwikiHeader5 {fg = c.dark_yellow, gui = "bold"},
+        VimwikiHeader6 {fg = c.purple, gui = "bold"},
+        VimwikiLink {fg = c.vivid_blue},
+        VimwikiHeaderChar {fg = c.line_grey},
+        VimwikiHR {fg = c.yellow},
+        VimwikiList {fg = c.orange},
+        VimwikiTag {fg = c.orange},
+        VimwikiMarkers {fg = c.line_grey},
+        -- END vimwiki 
     }
 end)
 
